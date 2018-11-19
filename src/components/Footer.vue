@@ -1,12 +1,12 @@
 <template>
-  <div id="about-view">
-    This is About View
+  <div class="footer">
+
   </div>
 </template>
 
 <script>
 export default {
-  name: "AboutView"
+  name: "Footer"
 };
 </script>
 
