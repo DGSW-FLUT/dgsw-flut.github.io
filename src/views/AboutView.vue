@@ -1,15 +1,19 @@
 <template>
   <div id="about-view">
-    This is About View
+    <crews-list />
   </div>
 </template>
 
 <script>
+import CrewsList from "@/components/CrewsList";
+
 export default {
-  name: "AboutView"
+  name: "AboutView",
+  components: {
+    CrewsList
+  }
 };
 </script>
 
 <style lang="scss">
-
 </style>

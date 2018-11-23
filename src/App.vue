@@ -1,21 +1,22 @@
 <template>
   <div id="app">
-    <navbar :navs="navs" />
+    <navbar-item :navs="navs" />
     <transition name="router-switch" mode="out-in">
       <router-view class="area-view" />
     </transition>
-    <footer />
+    <footer-item />
   </div>
 </template>
 
 <script>
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import NavbarItem from "@/components/NavbarItem";
+import FooterItem from "@/components/FooterItem";
 
 export default {
   name: "App",
   components: {
-    Navbar, Footer
+    NavbarItem,
+    FooterItem
   },
   data() {
     return {
@@ -37,7 +38,7 @@ export default {
           text: "Contact"
         }
       ]
-    }
+    };
   }
 };
 </script>
@@ -49,7 +50,9 @@ export default {
   font-family: "Spoqa Han Sans", sans-serif;
 }
 
-a, p, div {
+a,
+p,
+div {
   color: $black;
 }
 
@@ -69,6 +72,6 @@ a, p, div {
 
 .router-switch-enter,
 .router-switch-leave-active {
-  opacity: 0
+  opacity: 0;
 }
 </style>

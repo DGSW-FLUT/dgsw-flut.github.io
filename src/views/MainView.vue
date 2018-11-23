@@ -1,6 +1,6 @@
 <template>
   <div id="main-view">
-    <img :src="getLogo" alt="">
+    <img class="logo" :src="getLogo" alt="">
     <p class="welcome" ref="welcome">Welcome to FLUT!</p>
   </div>
 </template>
@@ -13,6 +13,11 @@ export default {
       return require("./../assets/image/logo.png");
     }
   },
+  mounted() {
+    setTimeout(() => {
+      this.$refs.welcome.style.transform = "translateY(24px)";
+    }, 150);
+  }
 };
 </script>
 
@@ -20,6 +25,12 @@ export default {
 .welcome {
   margin-top: 50px;
   text-align: center;
-  display: none;
+  transition: transform 0.6s ease-out;
+}
+
+.logo {
+  width: 50%;
+  height: 50%;
+  transform: translate(50%);
 }
 </style>

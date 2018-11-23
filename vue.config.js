@@ -4,6 +4,7 @@ module.exports = {
       sass: {
         data: `
           @import "@/assets/scss/variables.scss";
+          @import "@/assets/scss/tooltip.scss";
         `
       }
     }

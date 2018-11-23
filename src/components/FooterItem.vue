@@ -1,15 +1,14 @@
 <template>
-  <div class="footer">
+  <div class="footer-item">
 
   </div>
 </template>
 
 <script>
 export default {
-  name: "Footer"
+  name: "FooterItem"
 };
 </script>
 
 <style lang="scss">
-
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar">
+  <div class="navbar-item">
     <ul class="navbar-list">
       <div class="navbar-list--it" v-for="(nav, i) in navs" :key="i">
         <li><router-link :to="nav.to">{{ nav.text }}</router-link></li>
@@ -10,14 +10,13 @@
 
 <script>
 export default {
-  name: "Navbar",
+  name: "NavbarItem",
   props: ["navs"]
 };
 </script>
 
 <style lang="scss">
-
-.navbar {
+.navbar-item {
   position: fixed;
   bottom: 46px;
   left: 50%;
