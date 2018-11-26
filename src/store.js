@@ -29,6 +29,21 @@ export default new Vuex.Store({
         cardinal: "1기",
         name: "서상희",
         description: "Full-Stack Developer"
+      },
+      {
+        cardinal: "1.5기",
+        name: "이유승",
+        description: "Junior Developer"
+      },
+      {
+        cardinal: "1.5기",
+        name: "전광용",
+        description: "Junior Developer"
+      },
+      {
+        cardinal: "1.5기",
+        name: "이진영",
+        description: "Junior Developer"
       }
     ]
   },
