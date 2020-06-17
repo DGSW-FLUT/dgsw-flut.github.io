@@ -1,0 +1,53 @@
+{
+    "base-link": "https://github.com/DGSW-FLUT/Markdown-Cheat-sheet-in-Korean",
+    "questions": [{
+        "type": "text",
+        "title": "다음을 Markdown으로 표기해주세요.",
+        "desc": "<p class=\"font-weight-bold my-0\">오전10시</p>",
+        "hint": "**를 양 옆에 붙이면 굵은 글자로 표기 할 수 있습니다.",
+        "answer": "\\*\\*오전10시\\*\\*",
+        "answer_type": "single-line"
+    }, {
+        "type": "text",
+        "title": "제시된 링크를 사용해서 인라인 링크 문법을 사용한 텍스트를 만들어주세요.",
+        "desc": "https://www.example.com",
+        "hint": "[]()를 이용하여 링크를 만들 수 있습니다.",
+        "answer": "\\[.+\\]\\(.+\\)",
+        "answer_type": "single-line"
+    }, {
+        "type": "text",
+        "title": "제시된 링크를 이용해서 인라인 이미지 문법으로 표기해주세요.",
+        "desc": "https://dgsw-flut.github.io/static/image/md.png",
+        "hint": "![alt text](url) 형태로 인라인 이미지 문법이 사용가능합니다.",
+        "answer": "!\\s*\\[alt\\s+text\\]\\s*\\(\\s*https:\\/\\/dgsw-flut\\.github\\.io\\/static\\/image\\/md\\.png\\s*(\\\".*?\\\")?\\s*\\)",
+        "answer_type": "single-line"
+    }, {
+        "type": "text",
+        "title": "다음을 표기해주세요. 단 (<, >) 문자를 사용하지 말아주세요.",
+        "desc": "동해물과<br>백두산이",
+        "hint": "줄 뒤에 공백문자를 2개 이상 넣어서 다음 줄에 이어 쓸 수 있습니다.",
+        "answer": "동해물과\\s{2,}\\n백두산이",
+        "answer_type": "multi-line"
+    }, {
+        "type": "text",
+        "title": "다음을 표기해주세요. 단 (<, >) 문자를 사용하지 말아주세요.",
+        "desc": "마르고<br><br>닳도록",
+        "hint": "줄 사이에 한 줄 이상 여백을 두면 문단이 나누어 집니다.",
+        "answer": "마르고(\\r\\n|\\n){2,}닳도록",
+        "answer_type": "multi-line"
+    }, {
+        "type": "text",
+        "title": "다음을 표기해주세요. 단 (<, >) 문자를 사용하지 말아주세요.",
+        "desc": "<ul class=\"my-0\"><li>짜장</li><li>짬뽕</li><li>탕수육</li></ul>",
+        "hint": "+/-/* 로 글머리 기호를 달 수 있습니다.",
+        "answer": "\\s*[+*-]\\s+짜장\\s*[+*-]\\s+짬뽕\\s*[+*-]\\s+탕수육",
+        "answer_type": "multi-line"
+    }, {
+        "type": "html",
+        "title": "다음을 표기해주세요. 단 (<, >) 문자를 사용하지 말아주세요.",
+        "html": "<table class=\"table table-striped my-0\"><thead><tr><th scope=\"col\">품명</th><th scope=\"col\">가격</th></tr></thead><tbody><tr><td>땅콩</td><td>30$</td></tr><tr><td>수박</td><td>50$</td></tr></tbody></table>",
+        "hint": "이 문제에는 힌트가 없습니다.",
+        "answer": "\\|?\\s*?품명\\s*?\\|\\s*?가격\\s*?\\n\\s*?\\|?-+\\s*?\\|\\s*?-+\\s*?\\|?\\s*?\\n\\s*?\\|?\\s*?땅콩\\s*?\\|\\s*?30\\$\\s*?\\|?\\s*?\\n\\s*?\\|?\\s*?수박\\s*?\\|\\s*?50\\$\\s*?\\|?",
+        "answer_type": "multi-line"
+    }]
+}
