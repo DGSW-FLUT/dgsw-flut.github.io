@@ -45,7 +45,7 @@
     }, {
         "type": "html",
         "title": "다음을 표기해주세요. 단 (<, >) 문자를 사용하지 말아주세요.",
-        "html": "<table class=\"table table-striped my-0\"><thead><tr><th scope=\"col\">품명</th><th scope=\"col\">가격</th></tr></thead><tbody><tr><td>땅콩</td><td>30$</td></tr><tr><td>수박</td><td>50$</td></tr></tbody></table>",
+        "html": "<table class=\"table table-striped my-0\"><thead><tr><th class=\"border-top-0\" scope=\"col\">품명</th><th class=\"border-top-0\" scope=\"col\">가격</th></tr></thead><tbody><tr><td>땅콩</td><td>30$</td></tr><tr><td>수박</td><td>50$</td></tr></tbody></table>",
         "hint": "이 문제에는 힌트가 없습니다.",
         "answer": "\\|?\\s*?품명\\s*?\\|\\s*?가격\\s*?\\n\\s*?\\|?-+\\s*?\\|\\s*?-+\\s*?\\|?\\s*?\\n\\s*?\\|?\\s*?땅콩\\s*?\\|\\s*?30\\$\\s*?\\|?\\s*?\\n\\s*?\\|?\\s*?수박\\s*?\\|\\s*?50\\$\\s*?\\|?",
         "answer_type": "multi-line"
