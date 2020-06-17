@@ -70,7 +70,7 @@
                 if (question.desc != null)
                     form.append('<div class="alert alert-secondary" role="alert">' + question.desc + '</div>')
             } else if (question.type == "html") {
-                form.append('<div class="border border-dark mb-3">' + question.html + '</div>')
+                form.append('<div class="border rounded-lg mb-3">' + question.html + '</div>')
             }
             if (question.answer_type == "single-line") {
                 form.append('<input id="quest_' + k + '_answer" class="shadow form-control" type="text">')
