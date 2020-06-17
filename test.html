@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <script src="/static/js/jquery-3.5.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js">
+    </script>
+    <style>
+        @import url('http://fonts.googleapis.com/earlyaccess/nanumgothic.css');
+    </style>
+</head>
+
+<body style="min-height:100vh;font-family: 'Nanum Gothic';">
+    <a class="btn btn-light d-flex flex-row align-items-center" id="title" disabled="disabled">
+        <div class="bg-light rounded text-hide position-absolute">
+            <img src="/static/image/md.png" draggable="false" />
+        </div>
+        <div class="d-flex justify-content-center container-fluid">
+            <h1>
+                Markdown
+            </h1>
+        </div>
+    </a>
+    <div class="d-flex flex-column justify-content-center container-sm">
+        <div class="form-group mt-5" id="testform">
+        </div>
+    </div>
+</body>
+
+<script>
+    var test_data = undefined;
+
+    function score() {
+        let k = 0;
+        for (const question of test_data.questions) {
+            k += 1;
+            const input = $('#quest_' + k + '_answer');
+            if (input[0].value.match(RegExp(question.answer)) == null) {
+                input.addClass('border-danger');
+                $('#quest_' + k + '_help').removeClass('invisible');
+            } else {
+                input.addClass('border-success');
+            }
+        }
+        $("html, body").animate({
+            scrollTop: 0
+        }, 100);
+    }
+
+    function exit() {
+        window.location.href = '/index.html';
+    }
+
+    async function setup() {
+        test_data = await (await fetch("/markdown/test.json")).json();
+        let k = 0;
+        let form = $('#testform');
+        $('#title').attr({
+            'href': test_data['base-link']
+        });
+
+        for (const question of test_data.questions) {
+            k += 1;
+            form.append('<div class="d-flex flex-wrap align-items-end"><h5>' + k + "번 문제.</h5><h6>" +
+                question
+                .title + "</h6></div>");
+            if (question.type == "text") {
+                if (question.desc != null)
+                    form.append('<div class="alert alert-secondary" role="alert">' + question.desc + '</div>')
+            } else if (question.type == "html") {
+                form.append('<div class="border border-dark mb-3">' + question.html + '</div>')
+            }
+            if (question.answer_type == "single-line") {
+                form.append('<input id="quest_' + k + '_answer" class="shadow form-control" type="text">')
+            } else if (question.answer_type == "multi-line") {
+                form.append('<textarea id="quest_' + k +
+                    '_answer" class="shadow form-control" rows="3"></textarea>')
+            }
+            form.append('<small id="quest_' + k + '_help" class="text-danger form-text invisible mb-2">' +
+                question
+                .hint + '</small>');
+        }
+        form.append('<button type="submit" id="submit" class="btn btn-primary border border-dark">채점</button>');
+        form.append('<button id="exit" class="btn btn-light ml-3 border border-dark">돌아가기</button>');
+
+        $('#submit').bind('click', score);
+        $('#exit').bind('click', exit);
+    }
+    setup();
+</script>
+
+</html>
