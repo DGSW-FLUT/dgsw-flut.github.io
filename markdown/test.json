@@ -1,5 +1,9 @@
 {
-    "base-link": "https://github.com/DGSW-FLUT/Cheat-Sheet/blob/master/Markdown.md",
+    "logo": {
+        "title": "Markdown",
+        "url": "/static/image/md.png"
+    },
+    "base_link": "https://github.com/DGSW-FLUT/Cheat-Sheet/blob/master/Markdown.md",
     "questions": [{
         "type": "text",
         "title": "다음을 Markdown으로 표기해주세요.",

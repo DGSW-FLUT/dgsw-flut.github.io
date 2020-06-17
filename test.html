@@ -15,10 +15,9 @@
 <body style="min-height:100vh;font-family: 'Nanum Gothic';">
     <a class="btn btn-light d-flex flex-row align-items-center" id="title" disabled="disabled">
         <div class="bg-light rounded text-hide position-absolute">
-            <img src="/static/image/md.png" draggable="false" />
+            <img draggable="false" />
         </div>
         <h1 class="d-flex justify-content-center container-fluid">
-            Markdown
         </h1>
     </a>
     <div class="d-flex flex-column justify-content-center container-sm">
@@ -41,15 +40,18 @@
     function score() {
         let k = 0;
         let score = 0;
-        for (const question of test_data.questions) { 
+        for (const question of test_data.questions) {
             k += 1;
             const input = $('#quest_' + k + '_answer');
             if (input[0].value.match(RegExp(question.answer)) == null) {
                 input.addClass('border-danger');
+                input.removeClass('border-success');
                 $('#quest_' + k + '_help').removeClass('invisible');
             } else {
                 input.addClass('border-success');
-                score += 100.0 / (test_data.questions.length - 1);
+                input.removeClass('border-danger');
+                $('#quest_' + k + '_help').addClass('invisible');
+                score += 100.0 / (test_data.questions.length);
             }
         }
         $('#result').removeClass('d-none');
@@ -64,12 +66,19 @@
     }
 
     async function setup() {
-        test_data = await (await fetch("/markdown/test.json")).json();
+        const urlParams = new URLSearchParams(window.location.search);
+        const test = urlParams.get('test');
+
+        test_data = await (await fetch("/" + test + "/test.json")).json();
         let k = 0;
         let form = $('#testform');
         $('#title').attr({
-            'href': test_data['base-link']
+            'href': test_data.base_link
         });
+        $('#title>div>img').attr({
+            'src': test_data.logo.url
+        });
+        $('#title>h1').text(test_data.logo.title);
 
         for (const question of test_data.questions) {
             k += 1;
