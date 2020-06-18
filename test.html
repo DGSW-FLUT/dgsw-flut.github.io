@@ -68,8 +68,14 @@
     async function setup() {
         const urlParams = new URLSearchParams(window.location.search);
         const test = urlParams.get('test');
-
-        test_data = await (await fetch("/" + test + "/test.json")).json();
+        const result = await fetch("/" + test + "/test.json");
+        if (result.status != 200)
+        {
+            alert('유효하지 않은 주소입니다.');
+            window.location.href = '/index.html';
+            return;
+        }
+        test_data = await result.json();
         let k = 0;
         let form = $('#testform');
         $('#title').attr({
