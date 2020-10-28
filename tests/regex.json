@@ -1,9 +1,4 @@
 {
-    "logo": {
-        "title": "Regex",
-        "url": null
-    },
-    "base_link": "https://github.com/DGSW-FLUT/Cheat-Sheet/blob/master/Regex.md",
     "questions": [{
         "type": "text",
         "title": "다음 조건에 맞는 검색 결과를 주는 최소 길이 정규식을 작성해 주세요(.은 사용하지 마세요)",

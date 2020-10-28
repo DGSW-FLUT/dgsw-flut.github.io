@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Markdown",
+    "link": "markdown",
+    "image": "md.png",
+    "cheatsheet": "https://github.com/DGSW-FLUT/Cheat-Sheet/blob/master/Markdown.md"
+  },
+  {
+    "name": "Regex",
+    "link": "regex",
+    "image": "regex.png",
+    "cheatsheet": "https://github.com/DGSW-FLUT/Cheat-Sheet/blob/master/Regex.md"
+  },
+  {
+    "name": "Github",
+    "link": "github",
+    "image": "github.png",
+    "cheatsheet": null
+  }
+]

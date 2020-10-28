@@ -12,53 +12,76 @@
     </style>
 </head>
 
-<body style="min-height:100vh;font-family: 'Nanum Gothic';">
-    <a class="btn btn-light d-flex flex-row align-items-center" id="title" disabled="disabled">
-        <div class="bg-light rounded text-hide position-absolute">
-            <img draggable="false" />
-        </div>
-        <h1 class="d-flex justify-content-center container-fluid">
-        </h1>
-    </a>
-    <div class="d-flex flex-column justify-content-center container-sm">
-        <div class="form-group mt-5" id="testform">
-            <div id="result" class="alert alert-primary d-none" role="alert">
-                <h4 class="alert-heading">채점이 끝났습니다!</h4>
-                <p class="m-2">&nbsp;틀린 문제는 힌트를 통해 다시 풀 수 있으니 참고하시면 좋겠습니다.
-                    <br>점수가 85점 미만이라면 재학습 후 다시 시험을 치루시길 바랍니다.
-                </p>
-                <hr class="m-2">
-                <p id="result-score" class="mb-0">&nbsp;&nbsp;100점</p>
-            </div>
+<body style="min-height:100vh;font-family: 'Nanum Gothic',serif;">
+<a class="btn btn-light d-flex flex-row align-items-center" id="title" disabled="disabled">
+    <div class="bg-light rounded text-hide position-absolute">
+        <img draggable="false"/>
+    </div>
+    <h1 class="d-flex justify-content-center container-fluid">
+    </h1>
+</a>
+<div class="d-flex flex-column justify-content-center container-sm">
+    <div class="form-group mt-5" id="testform">
+        <div id="result" class="alert alert-primary d-none" role="alert">
+            <h4 class="alert-heading">채점이 끝났습니다!</h4>
+            <p class="m-2">&nbsp;틀린 문제는 힌트를 통해 다시 풀 수 있으니 참고하시면 좋겠습니다.
+                <br>점수가 85점 미만이라면 재학습 후 다시 시험을 치루시길 바랍니다.
+            </p>
+            <hr class="m-2">
+            <p id="result-score" class="mb-0">&nbsp;&nbsp;100점</p>
         </div>
     </div>
+</div>
 </body>
 
 <script>
     var test_data = undefined;
+
+    function shuffleArray(array) {
+        let curId = array.length;
+        while (0 !== curId) {
+            let randId = Math.floor(Math.random() * curId);
+            curId -= 1
+            let tmp = array[curId];
+            array[curId] = array[randId];
+            array[randId] = tmp;
+        }
+        return array;
+    }
 
     function score() {
         let k = 0;
         let score = 0;
         for (const question of test_data.questions) {
             k += 1;
-            const input = $('#quest_' + k + '_answer');
-            if (input[0].value.match(RegExp(question.answer)) == null) {
+            let correct = false;
+            const input = $(`#quest_${k}_answer`);
+            if (question.answer_type in ['single-line', 'multi-line']) {
+                if (input[0].value.match(RegExp(question.answer)) !== null) correct = true;
+            } else if (question.answer_type === 'radio') {
+                let value = null;
+                for (const child of input.find('.form-check-input')) {
+                    if (child.checked) {
+                        value = child.title;
+                        break;
+                    }
+                }
+                if (value === question.answer) correct = true;
+            }
+            if (!correct) {
                 input.addClass('border-danger');
                 input.removeClass('border-success');
-                $('#quest_' + k + '_help').removeClass('invisible');
+                $(`#quest_${k}_help`).removeClass('invisible');
             } else {
                 input.addClass('border-success');
                 input.removeClass('border-danger');
-                $('#quest_' + k + '_help').addClass('invisible');
+                $(`#quest_${k}_help`).addClass('invisible');
                 score += 100.0 / (test_data.questions.length);
             }
         }
         $('#result').removeClass('d-none');
-        $('#result-score').text('  ' + Math.round(score) + '점');
-        $("html, body").animate({
-            scrollTop: 0
-        }, 100);
+        $('#result-score').text(`  ${Math.floor(score * 100) / 100}점`);
+        $("html, body").animate({scrollTop: 0}, 100);
     }
 
     function exit() {
@@ -68,51 +91,53 @@
     async function setup() {
         const urlParams = new URLSearchParams(window.location.search);
         const test = urlParams.get('test');
-        const result = await fetch("/" + test + "/test.json");
-        if (result.status != 200)
-        {
+        const result = await fetch(`/tests/${test}.json`);
+        if (result.status !== 200) {
             alert('유효하지 않은 주소입니다.');
             window.location.href = '/index.html';
             return;
         }
         test_data = await result.json();
-        let k = 0;
-        let form = $('#testform');
-        $('#title').attr({
-            'href': test_data.base_link
-        });
-        $('#title>div>img').attr({
-            'src': test_data.logo.url
-        });
-        $('#title>h1').text(test_data.logo.title);
+        const title_data = (await (await fetch(`/titles.json`)).json()).find(data => data.link === test);
 
+
+        let form = $('#testform');
+        $('#title').attr({'href': title_data.cheatsheet});
+        $('#title>div>img').attr({'src': `/static/image/${title_data.image}`});
+        $('#title>h1').text(title_data.name);
+
+        let k = 0;
         for (const question of test_data.questions) {
             k += 1;
-            form.append('<div class="d-flex flex-wrap align-items-end"><h5>' + k + "번 문제.</h5><h6>" +
-                question
-                .title + "</h6></div>");
-            if (question.type == "text") {
-                if (question.desc != null)
-                    form.append('<div class="alert alert-secondary" role="alert">' + question.desc + '</div>')
-            } else if (question.type == "html") {
-                form.append('<div class="border rounded-lg mb-3">' + question.html + '</div>')
+            form.append(`<div class="d-flex flex-wrap align-items-end"><h5>${k}번 문제.</h5><h6>${question.title}</h6></div>`);
+            if (question.type === "text") {
+                if (question.desc !== null) form.append(`<div class="alert alert-secondary" role="alert">${question.desc}</div>`)
+            } else if (question.type === "html") {
+                form.append(`<div class="border rounded-lg mb-3">${question.html}</div>`)
             }
-            if (question.answer_type == "single-line") {
-                form.append('<input id="quest_' + k + '_answer" class="shadow form-control" type="text">')
-            } else if (question.answer_type == "multi-line") {
-                form.append('<textarea id="quest_' + k +
-                    '_answer" class="shadow form-control" rows="3"></textarea>')
+            if (question.answer_type === "single-line") {
+                form.append(`<input id="quest_${k}_answer" class="shadow form-control" type="text">`)
+            } else if (question.answer_type === "multi-line") {
+                form.append(`<textarea id="quest_${k}_answer" class="shadow form-control" rows="3"></textarea>`)
+            } else if (question.answer_type === "radio") {
+                let choices = question.not_answers;
+                choices.push(question.answer);
+                const check_form = $(`<div class="form-check" id="quest_${k}_answer">`);
+                for (const choice of shuffleArray(choices)) {
+                    check_form.append(`<div class="form-check">
+                            <input class="form-check-input" type="radio" name="quest_${k}_answer_radio" title="${choice}">
+                        <label class="form-check-label"> ${choice} </label>
+                    </div>`);
+                }
+                form.append(check_form);
             }
-            form.append('<small id="quest_' + k + '_help" class="text-danger form-text invisible mb-2">' +
-                question
-                .hint + '</small>');
+            form.append(`<small id = "quest_${k}_help" class= "text-danger form-text invisible mb-2" >${question.hint}</small>`);
         }
-        form.append('<button type="submit" id="submit" class="btn btn-primary border border-dark">채점</button>');
-        form.append('<button id="exit" class="btn btn-light ml-3 border border-dark">돌아가기</button>');
 
-        $('#submit').bind('click', score);
-        $('#exit').bind('click', exit);
+        form.append($('<button type="submit" id="submit" class="btn btn-primary border border-dark">채점</button>').bind('click', score));
+        form.append($('<button id="exit" class="btn btn-light ml-3 border border-dark">돌아가기</button>').bind('click', exit));
     }
+
     setup();
 </script>
 
