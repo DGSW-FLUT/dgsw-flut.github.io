@@ -56,7 +56,7 @@
             k += 1;
             let correct = false;
             const input = $(`#quest_${k}_answer`);
-            if (question.answer_type in ['single-line', 'multi-line']) {
+            if (['single-line', 'multi-line'].indexOf(question.answer_type) != -1) {
                 if (input[0].value.match(RegExp(question.answer)) !== null) correct = true;
             } else if (question.answer_type === 'radio') {
                 let value = null;
@@ -67,7 +67,7 @@
                     }
                 }
                 if (value === question.answer) correct = true;
-            }
+            } else console.log(question);
             if (!correct) {
                 input.addClass('border-danger');
                 input.removeClass('border-success');
